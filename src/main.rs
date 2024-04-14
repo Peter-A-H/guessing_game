@@ -2,7 +2,6 @@ use rand::Rng;
 use std::cmp::Ordering;
 use std::io;
 
-#[derive(Debug)]
 pub struct Guess {
     value: i32,
 }
@@ -34,13 +33,13 @@ fn main() {
             .expect("Failed to read line");
 
         let guess = match guess.trim().parse() {
-            Ok(num) => num,
-            Err(_) => continue,
+            Ok(num) => Guess::new(num),
+            Err(_) => {
+                println!("Input must be a number must be between 1 and 100.");
+                continue;
+            }
         };
 
-        let guess = Guess::new(guess);
-        println!("Secret number: {secret_number}");
-        println!("Guess: {:?}", guess);
         match guess.value().cmp(&secret_number) {
             Ordering::Less => println!("Too small!"),
             Ordering::Greater => println!("Too big!"),
