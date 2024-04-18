@@ -1,24 +1,8 @@
+mod player;
+use player::guess;
 use rand::Rng;
 use std::cmp::Ordering;
 use std::io;
-
-pub struct Guess {
-    value: i32,
-}
-
-impl Guess {
-    pub fn new(value: i32) -> Guess {
-        if !(1..=100).contains(&value) {
-            panic!("Guess value must be between 1 and 100, got {}", value);
-        }
-
-        Guess { value }
-    }
-
-    pub fn value(&self) -> i32 {
-        self.value
-    }
-}
 
 fn main() {
     let secret_number = rand::thread_rng().gen_range(1..=100);
@@ -33,7 +17,7 @@ fn main() {
             .expect("Failed to read line");
 
         let guess = match guess.trim().parse() {
-            Ok(num) => Guess::new(num),
+            Ok(num) => guess::UserGuess::new(num),
             Err(_) => {
                 println!("Input must be a number must be between 1 and 100.");
                 continue;
